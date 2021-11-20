@@ -1,6 +1,6 @@
-package com.beetleink.redgifs.ApiCalling;
+package com.beetleink.redgifs.Model.Pojo;
 import java.util.List; 
-public class VerifiedGif{
+public class HotGif{
     public String id;
     public int createDate;
     public boolean hasAudio;

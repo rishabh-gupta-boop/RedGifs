@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "379261345324",
+    "firebase_url": "https://redgifs-6739a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "redgifs-6739a",
+    "storage_bucket": "redgifs-6739a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379261345324:android:7d042045a4787c79cd7b89",
+        "android_client_info": {
+          "package_name": "com.beetleink.redgifs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379261345324-dm7ona4aa3lpocsjijb0765mdr6bjcpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPJyE3vnXNP6A23qNGH0vUhueJRfjfodQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379261345324-dm7ona4aa3lpocsjijb0765mdr6bjcpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

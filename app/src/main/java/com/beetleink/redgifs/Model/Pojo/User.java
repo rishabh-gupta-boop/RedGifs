@@ -1,5 +1,5 @@
-package com.beetleink.redgifs.ApiCalling;
-public class HotCreator{
+package com.beetleink.redgifs.Model.Pojo;
+public class User{
     public int creationtime;
     public int followers;
     public int following;

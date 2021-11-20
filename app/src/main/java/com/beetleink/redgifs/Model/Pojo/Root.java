@@ -1,9 +1,5 @@
-package com.beetleink.redgifs.ApiCalling;
-import com.beetleink.redgifs.ApiCalling.SoundGif;
-import com.beetleink.redgifs.ApiCalling.VerifiedGif;
-import com.beetleink.redgifs.ApiCalling.VerifiedImage;
-
-import java.util.List;
+package com.beetleink.redgifs.Model.Pojo;
+import java.util.List; 
 public class Root{
     public List<HotGif> hotGifs;
     public List<HotCreator> hotCreators;

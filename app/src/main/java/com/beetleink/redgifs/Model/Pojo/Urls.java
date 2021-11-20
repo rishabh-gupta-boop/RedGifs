@@ -1,4 +1,4 @@
-package com.beetleink.redgifs.ApiCalling;
+package com.beetleink.redgifs.Model.Pojo;
 public class Urls{
     public String sd;
     public String hd;

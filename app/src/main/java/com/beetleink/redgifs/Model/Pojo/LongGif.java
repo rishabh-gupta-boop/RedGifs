@@ -1,9 +1,6 @@
-package com.beetleink.redgifs.ApiCalling;
-import com.beetleink.redgifs.ApiCalling.Urls;
-import com.beetleink.redgifs.ApiCalling.User;
-
-import java.util.List;
-public class HotImage{
+package com.beetleink.redgifs.Model.Pojo;
+import java.util.List; 
+public class LongGif{
     public String id;
     public int createDate;
     public boolean hasAudio;
@@ -19,6 +16,6 @@ public class HotImage{
     public String userName;
     public int type;
     public String avgColor;
-    public String gallery;
+    public Object gallery;
     public User user;
 }

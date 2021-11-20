@@ -1,9 +1,6 @@
-package com.beetleink.redgifs.ApiCalling;
-import com.beetleink.redgifs.ApiCalling.Urls;
-import com.beetleink.redgifs.ApiCalling.User;
-
-import java.util.List;
-public class VerticalGif{
+package com.beetleink.redgifs.Model.Pojo;
+import java.util.List; 
+public class VerifiedGif{
     public String id;
     public int createDate;
     public boolean hasAudio;

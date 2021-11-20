@@ -1,9 +1,6 @@
-package com.beetleink.redgifs.ApiCalling;
-import com.beetleink.redgifs.ApiCalling.Urls;
-import com.beetleink.redgifs.ApiCalling.User;
-
-import java.util.List;
-public class HotGif{
+package com.beetleink.redgifs.Model.Pojo;
+import java.util.List; 
+public class HorizontalGif{
     public String id;
     public int createDate;
     public boolean hasAudio;
