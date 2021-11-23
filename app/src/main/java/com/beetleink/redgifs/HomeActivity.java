@@ -1,143 +1,239 @@
 package com.beetleink.redgifs;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentManager;
+
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.view.MenuItem;
+
 import com.beetleink.redgifs.Model.Adapter;
 
-import com.beetleink.redgifs.Model.Pojo.SoundGif;
-import com.beetleink.redgifs.Model.Pojo.Urls;
-import com.beetleink.redgifs.Model.Pojo.User;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.beetleink.redgifs.Fragments.GifyView;
+import com.beetleink.redgifs.Fragments.PersonFragment;
+import com.beetleink.redgifs.Fragments.SavedFragment;
+import com.beetleink.redgifs.Fragments.SearchFragment;
+import com.beetleink.redgifs.Fragments.UploadFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.sql.SQLOutput;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import static com.beetleink.redgifs.Model.Adapter.viewHolder;
 
 
 public class HomeActivity extends AppCompatActivity {
-    private ImageView disc;
-    private ViewPager2 viewPager2;
-    Adapter arrayAdapter;
-    boolean isActivityRunning = false;
 
-    ArrayList<SoundGif> soundGifs = new ArrayList<>();
+    boolean isActivityRunning = false;
+    FragmentManager fragmentManager;
+    BottomNavigationView.OnNavigationItemSelectedListener navListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         isActivityRunning = true;
-
         init();
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        isActivityRunning = true;
+        if(Adapter.viewHolder!=null){
+            Adapter.viewHolder.resumePlayer();
+        }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        isActivityRunning = false;
-        Adapter.ViewHolder viewHolder = null;
-        viewHolder.releasePlayer();
-    }
+
 
     @Override
     public void onStop() {
         super.onStop();
-        isActivityRunning = false;
-        Adapter.ViewHolder viewHolder = null;
-        viewHolder.releasePlayer();
+        Adapter.viewHolder.pausePlayer();
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Adapter.ViewHolder viewHolder = null;
-        viewHolder.releasePlayer();
-    }
-
-    @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
-        Adapter.ViewHolder viewHolder = null;
-        viewHolder.releasePlayer();
+        Log.i("destor", "yes");
+       Adapter.viewHolder.releasePlayer();
     }
 
     private void init() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new GifyView(),"zero").commit();
+        fragmentManager = getSupportFragmentManager();
 
-        viewPager2 = findViewById(R.id.viewPager2);
-
-        FirebaseDatabase.getInstance("https://redgifs-6739a-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference().child("soundGifs")
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-                        SoundGif soundGif = new SoundGif();
-                        soundGif.avgColor = snapshot.child("avgColor").getValue().toString();
-                        soundGif.createDate = (int) snapshot.child("createDate").getValue(Integer.class);
-                        soundGif.duration = (int) snapshot.child("duration").getValue(Integer.class);
-                        soundGif.hasAudio = (boolean) snapshot.child("hasAudio").getValue(boolean.class);
-                        soundGif.height = (int) snapshot.child("height").getValue(Integer.class);
-                        soundGif.id = snapshot.child("id").getValue().toString();
-                        soundGif.likes = (int) snapshot.child("likes").getValue(Integer.class);
-                        soundGif.published = (boolean) snapshot.child("published").getValue(boolean.class);
-                        soundGif.tags = (List<String>) snapshot.child("tags").getValue();
-                        soundGif.type = (int) snapshot.child("type").getValue(Integer.class);
-                        soundGif.urls = (HashMap<Urls, String>) snapshot.child("urls").getValue();
-                        soundGif.user = (HashMap<User, String>) snapshot.child("user").getValue();
-                        soundGif.userName =  snapshot.child("userName").getValue().toString();
-                        soundGif.verified =  (boolean) snapshot.child("verified").getValue(boolean.class);
-                        soundGif.views =  (int) snapshot.child("views").getValue(Integer.class);
-                        soundGif.width =  (int) snapshot.child("width").getValue(Integer.class);
-                        soundGifs.add(soundGif);
-                        arrayAdapter = new Adapter(getApplicationContext(),soundGifs);
-                        viewPager2.setAdapter(arrayAdapter);
+        bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        viewHolder.resumePlayer();
+                        selectItem(0);
 
 
+                        return true;
+                    case R.id.search:
+                        viewHolder.pausePlayer();
+                        selectItem(1);
+                        return true;
+                    case R.id.saved:
+                        viewHolder.pausePlayer();
+                        selectItem(2);
+                        return true;
+                    case R.id.person:
+                        viewHolder.pausePlayer();
+                        selectItem(3);
+                        return true;
+                    case R.id.upload:
+                        viewHolder.pausePlayer();
+                        selectItem(4);
+                        return true;
+                    default:
+                        return false;
+                }
 
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull  DataSnapshot snapshot) {}
-
-                    @Override
-                    public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {}
-
-                    @Override
-                    public void onCancelled(@NonNull  DatabaseError error) {}
-                });
-
-
+            }
+        });
 
 
     }
 
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:
+                if (fragmentManager.findFragmentByTag("zero") != null) {
+                    //if the fragment exists, show it.
+                    Log.i("gify show", "yes");
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("zero")).commit();
+                } else {
+                    //if the fragment does not exist, add it to fragment manager.
+                    fragmentManager.beginTransaction().add(R.id.relativeLayout, new GifyView(), "zero").commit();
+                }
+                if (fragmentManager.findFragmentByTag("one") != null) {
+                    //if the other fragment is visible, hide it.
+
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("one")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("two") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("two")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("three") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("three")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("four") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("four")).commit();
+                }
+                break;
+            case 1:
+                Log.i("gify show", "search Fragment");
+                if (fragmentManager.findFragmentByTag("one") != null) {
+                    //if the fragment exists, show it.
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("one")).commit();
+                } else {
+                    //if the fragment does not exist, add it to fragment manager.
+                    fragmentManager.beginTransaction().add(R.id.relativeLayout, new SearchFragment(), "one").commit();
+                }
+                if (fragmentManager.findFragmentByTag("zero") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("zero")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("two") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("two")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("three") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("three")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("four") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("four")).commit();
+                }
+                break;
+
+            case 2:
+                if (fragmentManager.findFragmentByTag("two") != null) {
+                    //if the fragment exists, show it.
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("two")).commit();
+                } else {
+                    //if the fragment does not exist, add it to fragment manager.
+                    fragmentManager.beginTransaction().add(R.id.relativeLayout, new UploadFragment(), "two").commit();
+                }
+                if (fragmentManager.findFragmentByTag("one") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("one")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("zero") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("zero")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("three") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("three")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("four") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("four")).commit();
+                }
+                break;
+            case 3:
+                if (fragmentManager.findFragmentByTag("three") != null) {
+                    //if the fragment exists, show it.
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("three")).commit();
+                } else {
+                    //if the fragment does not exist, add it to fragment manager.
+                    fragmentManager.beginTransaction().add(R.id.relativeLayout, new SavedFragment(), "three").commit();
+                }
+                if (fragmentManager.findFragmentByTag("one") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("one")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("two") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("two")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("zero") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("zero")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("four") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("four")).commit();
+                }
+                break;
+            case 4:
+                if (fragmentManager.findFragmentByTag("four") != null) {
+                    //if the fragment exists, show it.
+                    fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("four")).commit();
+                } else {
+                    //if the fragment does not exist, add it to fragment manager.
+                    fragmentManager.beginTransaction().add(R.id.relativeLayout, new PersonFragment(), "four").commit();
+                }
+                if (fragmentManager.findFragmentByTag("one") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("one")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("two") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("two")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("zero") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("zero")).commit();
+                }
+                if (fragmentManager.findFragmentByTag("three") != null) {
+                    //if the other fragment is visible, hide it.
+                    fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("three")).commit();
+                }
+                break;
+        }
 
 
-
-
+    }
 }

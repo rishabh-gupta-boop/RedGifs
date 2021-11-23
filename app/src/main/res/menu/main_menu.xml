@@ -12,12 +12,12 @@
         android:title="Search"
         android:icon="@drawable/ic_search_icon"/>
     <item
-        android:id="@+id/create"
+        android:id="@+id/upload"
          />
     <item
-        android:id="@+id/message"
-        android:title="Messages"
-        android:icon="@drawable/ic_inbox_icon"/>
+        android:id="@+id/saved"
+        android:title="Saved"
+        android:icon="@drawable/bookmark"/>
     <item
         android:id="@+id/person"
         android:title="Person"

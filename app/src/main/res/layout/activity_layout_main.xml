@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LayoutMain">
+
+    >
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -36,6 +37,7 @@
         tools:srcCompat="@tools:sample/avatars"
         app:use_controller="false"
         app:resize_mode="fit"
+
         />
 
     <LinearLayout
@@ -49,7 +51,8 @@
         app:layout_constraintHorizontal_bias="0.928"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715">
+        app:layout_constraintVertical_bias="0.715"
+        >
 
 
         <RelativeLayout
@@ -75,20 +78,36 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/like"
+            android:id="@+id/imageLike"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:src="@drawable/heart_white" />
+        <TextView
+            android:id="@+id/like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="0"
+            android:layout_gravity="center"/>
 
         <ImageView
-            android:id="@+id/comment"
+            android:id="@+id/imageComment"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:src="@drawable/message" />
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="0"
+            android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/share"
@@ -141,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Loremd ipsum dolo amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. "
+            android:text=""
             android:textColor="@color/white" />
 
         <TextView
@@ -151,7 +170,7 @@
             android:drawableLeft="@drawable/music"
             android:drawablePadding="8dp"
             android:padding="5dp"
-            android:text="Close by Chainsmocker (feat....)"
+            android:text=""
 
             android:textColor="@color/white" />
 

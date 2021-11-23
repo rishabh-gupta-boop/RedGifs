@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.beetleink.redgifs.Model.Pojo.SoundGif;
@@ -36,125 +38,75 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Adapter  extends RecyclerView.Adapter<Adapter.ViewHolder> {
-    ArrayList<SoundGif> soundGifs = new ArrayList<>();
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
+//    ArrayList<SoundGif> soundGifs = new ArrayList<>();
+    ArrayList<String> locationArrayList = new ArrayList<>();
     Context context;
-    boolean isActivityRunning = false;
-
-    ///Calling soundgifs variables in arraylist//
+    static public ViewHolder viewHolder;
 
 
-    public Adapter(Context context,ArrayList<SoundGif> soundGifs) {
-        this.soundGifs= soundGifs;
+
+
+        ///Calling soundgifs variables in arraylist//
+//        ArrayList<SoundGif> soundGifs
+    public Adapter(Context context,ArrayList<String> locationArrayList) {
+        this.locationArrayList= locationArrayList;
         this.context = context;
+        Log.i("pausework", "main yes");
     }
+
     public Adapter(){}
-
-
-
 
 
     @NonNull
     @Override
-    public Adapter.ViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_layout_main,parent,false);
-        return new ViewHolder(view);
-    }
 
-
-
-
-    @Override
-    public void onBindViewHolder(@NonNull  Adapter.ViewHolder holder, int position) {
+        return new ViewHolder(view,context,locationArrayList);
 
 
     }
 
 
+    @Override
+    public void onBindViewHolder(@NonNull  ViewHolder holder, int position) {
+
+
+    }
+
 
     @Override
-    public void onViewAttachedToWindow(@NonNull  Adapter.ViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull  ViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         Log.i("onViewAttachedToWindow", "yes"+String.valueOf(holder.getPosition()));
+        viewHolder = holder;
+//        holder.itemsFiled(holder.getPosition());
         holder.onPrepare(holder.getPosition());
+        holder.resumePlayer();
+
     }
 
     @Override
-    public void onViewDetachedFromWindow(@NonNull  Adapter.ViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull  ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         Log.i("onViewDchedFromWindow", "yes"+String.valueOf(holder.getPosition()));
-        holder.onDetach();
+        holder.releasePlayer();
+
+
     }
 
 
 
     @Override
     public int getItemCount() {
-        return soundGifs.size();
+
+//        return soundGifs.size();
+        return locationArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView disc;
-        PlayerView viewPager2View;
-        ProgressBar progressBar;
-        ImageView thumbnail;
-        ExoPlayer player;
 
-
-
-        public ViewHolder(@NonNull  View itemView) {
-            super(itemView);
-            disc = itemView.findViewById(R.id.disk);
-            Glide.with(context).load(R.drawable.disk).into(disc);
-            progressBar = itemView.findViewById(R.id.progressBar);
-
-            //imageView
-            thumbnail = itemView.findViewById(R.id.thumbnail);
-            thumbnail.setVisibility(View.GONE);
-            //videoview and player
-            viewPager2View = itemView.findViewById(R.id.viewPager2View);
-
-        }
-
-        public void onPrepare(int position) {
-            player = new ExoPlayer.Builder(context).build();
-            player.setRepeatMode(Player.REPEAT_MODE_ONE);
-            MediaItem mediaItem = MediaItem.fromUri(soundGifs.get(position).urls.get("sd"));
-            player.setMediaItem(mediaItem);
-            Glide.with(context).load(soundGifs.get(position).urls.get("thumbnail"));
-            player.prepare();
-            viewPager2View.setPlayer(player);
-            player.addListener(new Player.Listener() {
-                @Override
-                public void onPlaybackStateChanged(int playbackState) {
-
-                    if(playbackState==2){
-                        thumbnail.setVisibility(View.VISIBLE);
-                    }
-                    if(playbackState==3){
-                        thumbnail.setVisibility(View.GONE);
-                        player.play();
-                    }
-                }
-            });
-        }
-
-        public void onDetach() {
-            player.pause();
-            player.release();
-
-        }
-        public void releasePlayer() {
-            if (player != null) {
-                player.release();
-                player.clearVideoSurface();
-                viewPager2View.getPlayer().release();
-                player = null;
-                viewPager2View = null;
-            }
-        }
-
-
-    }
 
 }
