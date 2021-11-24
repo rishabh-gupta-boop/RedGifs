@@ -16,6 +16,10 @@
         tools:replace="android:appComponentFactory"
         android:appComponentFactory="whateverString"
         <activity android:name=".HomeActivity" />
+        <activity android:name=".Fragments.PersonFrag.Authentication.LoginActivity" />
+        <activity android:name=".Fragments.PersonFrag.Authentication.PWresetActivity" />
+        <activity android:name=".Fragments.PersonFrag.Authentication.RegistrationActivity" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

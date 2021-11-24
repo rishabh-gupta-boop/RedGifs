@@ -4,26 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.beetleink.redgifs.Model.Adapter;
+import com.beetleink.redgifs.Fragments.PersonFrag.Authentication.RegistrationActivity;
+import com.beetleink.redgifs.Fragments.GifyFrag.Adapter;
 
-import com.beetleink.redgifs.Fragments.GifyView;
-import com.beetleink.redgifs.Fragments.PersonFragment;
-import com.beetleink.redgifs.Fragments.SavedFragment;
-import com.beetleink.redgifs.Fragments.SearchFragment;
-import com.beetleink.redgifs.Fragments.UploadFragment;
+import com.beetleink.redgifs.Fragments.GifyFrag.GifyView;
+import com.beetleink.redgifs.Fragments.PersonFrag.PersonFragment;
+import com.beetleink.redgifs.Fragments.SavedFrag.SavedFragment;
+import com.beetleink.redgifs.Fragments.SearchFrag.SearchFragment;
+import com.beetleink.redgifs.Fragments.UplaodFrag.UploadFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
-import static com.beetleink.redgifs.Model.Adapter.viewHolder;
+import static com.beetleink.redgifs.Fragments.GifyFrag.Adapter.viewHolder;
 
 
 public class HomeActivity extends AppCompatActivity {
 
     boolean isActivityRunning = false;
     FragmentManager fragmentManager;
+    FirebaseAuth firebaseAuth;
     BottomNavigationView.OnNavigationItemSelectedListener navListener;
 
 
@@ -64,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new GifyView(),"zero").commit();
         fragmentManager = getSupportFragmentManager();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -79,16 +84,20 @@ public class HomeActivity extends AppCompatActivity {
                         viewHolder.pausePlayer();
                         selectItem(1);
                         return true;
-                    case R.id.saved:
+                    case R.id.upload:
                         viewHolder.pausePlayer();
                         selectItem(2);
                         return true;
-                    case R.id.person:
+                    case R.id.saved:
                         viewHolder.pausePlayer();
                         selectItem(3);
                         return true;
-                    case R.id.upload:
+                    case R.id.person:
                         viewHolder.pausePlayer();
+                        if(firebaseAuth.getCurrentUser()==null) {
+                            startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+                        }
+                        Log.i("shit", "yes");
                         selectItem(4);
                         return true;
                     default:
