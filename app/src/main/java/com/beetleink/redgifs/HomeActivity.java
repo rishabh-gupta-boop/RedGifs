@@ -41,13 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(Adapter.viewHolder!=null){
-            Adapter.viewHolder.resumePlayer();
-        }
-    }
+
 
 
 
@@ -69,6 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new GifyView(),"zero").commit();
         fragmentManager = getSupportFragmentManager();
         firebaseAuth = FirebaseAuth.getInstance();
+
 
         bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

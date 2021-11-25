@@ -3,14 +3,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.SearchFrag.SearchFragment">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:textSize="24dp"
-        android:text="search Fragment" />
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            style="@style/MaterialSearchBarLight"
+            app:mt_speechMode="true"
+            app:mt_hint="Custom hint"
+            app:mt_maxSuggestionsCount="10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchBar"
+            app:mt_placeholder="Search"
+            app:mt_textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@+id/constrainLayout"
+            app:layout_constraintStart_toStartOf="@id/constrainLayout"
+            app:layout_constraintEnd_toEndOf="@id/constrainLayout"
+            app:layout_constraintBottom_toTopOf="@+id/horizontalRecyclerView"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/horizontalRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/searchBar"
+            app:layout_constraintStart_toStartOf="@+id/constrainLayout"
+            app:layout_constraintEnd_toEndOf="@id/constrainLayout"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/verticalRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/constrainLayout"
+            app:layout_constraintEnd_toEndOf="@+id/constrainLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/constrainLayout"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

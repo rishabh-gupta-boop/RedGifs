@@ -1,7 +1,8 @@
-package com.beetleink.redgifs.Fragments.SavedFrag;
+package com.beetleink.redgifs.Fragments.SearchFrag.Horizontal;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,11 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.beetleink.redgifs.R;
 
 public class ViewHolder extends  RecyclerView.ViewHolder {
-    ImageView imageView;
-
+    TextView textView;
     public ViewHolder(@NonNull  View itemView) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.imageView);
+        textView = itemView.findViewById(R.id.textview);
 
     }
 }

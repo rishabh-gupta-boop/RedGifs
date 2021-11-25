@@ -1,13 +1,9 @@
-package com.beetleink.redgifs.Fragments.SavedFrag;
+package com.beetleink.redgifs.Fragments.SearchFrag.Vertical;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +13,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class Adapter extends RecyclerView.Adapter<ViewHolder>  {
+public class VerticalAdapter extends RecyclerView.Adapter<ViewHolder>  {
    Context context;
     ArrayList<Integer> imagesArrayList;
 
-    public Adapter(Context context, ArrayList<Integer> imagesArrayList) {
+    public VerticalAdapter(Context context, ArrayList<Integer> imagesArrayList) {
         this.context = context;
         this.imagesArrayList = imagesArrayList;
     }

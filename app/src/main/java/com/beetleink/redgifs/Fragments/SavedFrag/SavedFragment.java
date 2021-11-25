@@ -10,9 +10,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 import com.beetleink.redgifs.R;
-
 import java.util.ArrayList;
 
 public class SavedFragment extends Fragment {
@@ -32,16 +32,22 @@ public class SavedFragment extends Fragment {
 
     }
     void init(View view){
-        Adapter adapter = new Adapter(this);
-        final GreedoLayoutManager layoutManager = new GreedoLayoutManager(photosAdapter);
-        layoutManager.setMaxRowHeight(MeasUtils.dpToPx(150, this));
+        recyclerView= view.findViewById(R.id.savedFragmentRecyclerView);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
 
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(photosAdapter);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
-        int spacing = MeasUtils.dpToPx(4, this);
-        recyclerView.addItemDecoration(new GreedoSpacingItemDecoration(spacing));
+        arrayListImages = new ArrayList<>();
+        arrayListImages.add(R.drawable.c);
+        arrayListImages.add(R.drawable.c);
+        arrayListImages.add(R.drawable.c);
+        arrayListImages.add(R.drawable.c);
+        arrayListImages.add(R.drawable.c);
+        arrayListImages.add(R.drawable.c);
+
+        Adapter adapter = new Adapter(getContext(), arrayListImages);
+        recyclerView.setAdapter(adapter);
+
 
 
 

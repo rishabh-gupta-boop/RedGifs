@@ -1,4 +1,4 @@
-package com.beetleink.redgifs.Fragments.SavedFrag;
+package com.beetleink.redgifs.Fragments.SearchFrag.Vertical;
 
 import android.view.View;
 import android.widget.ImageView;
