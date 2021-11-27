@@ -11,9 +11,9 @@
         android:id="@+id/search"
         android:title="Search"
         android:icon="@drawable/ic_search_icon"/>
-    <item
-        android:id="@+id/upload"
-         />
+<!--    <item-->
+<!--        android:id="@+id/upload"-->
+<!--         />-->
     <item
         android:id="@+id/saved"
         android:title="Saved"

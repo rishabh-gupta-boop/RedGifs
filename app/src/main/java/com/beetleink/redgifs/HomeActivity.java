@@ -79,10 +79,10 @@ public class HomeActivity extends AppCompatActivity {
                         viewHolder.pausePlayer();
                         selectItem(1);
                         return true;
-                    case R.id.upload:
-                        viewHolder.pausePlayer();
-                        selectItem(2);
-                        return true;
+//                    case R.id.upload:
+//                        viewHolder.pausePlayer();
+//                        selectItem(2);
+//                        return true;
                     case R.id.saved:
                         viewHolder.pausePlayer();
                         selectItem(3);
