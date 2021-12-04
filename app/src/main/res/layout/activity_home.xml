@@ -7,13 +7,23 @@
     tools:context=".HomeActivity"
     android:background="@color/black"
     >
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="RedGifs"
+        app:titleTextColor="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/bottomNav"
         android:id="@+id/relativeLayout"/>
 
@@ -32,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/relativeLayout"
         app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/main_menu" />
+        app:menu="@menu/bottom_navigation" />
 
 <!--    <ImageView-->
 <!--        android:id="@+id/imageView"-->

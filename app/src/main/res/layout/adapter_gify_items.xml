@@ -48,10 +48,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintHorizontal_bias="0.98"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.715"
+        app:layout_constraintVertical_bias="0.89"
         >
 
 
@@ -62,27 +62,27 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circular_dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logo" />
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="7dp"
+                android:layout_height="7dp"
                 android:layout_below="@id/circular_dp"
                 android:layout_gravity="center"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="-7.5dp"
+                android:layout_marginTop="-4dp"
                 android:src="@drawable/plus" />
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/imageLike"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/heart_white" />
         <TextView
             android:id="@+id/like"
@@ -95,10 +95,10 @@
 
         <ImageView
             android:id="@+id/imageComment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/message" />
         <TextView
             android:id="@+id/comment"
@@ -111,18 +111,18 @@
 
         <ImageView
             android:id="@+id/share"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/share" />
 
         <ImageView
             android:id="@+id/disk"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:src="@drawable/disk"
 
             />
@@ -134,10 +134,6 @@
         android:id="@+id/textLinearLayout"
         android:layout_width="0dp"
         android:layout_height="179dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="432dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="50dp"
         android:gravity="bottom"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -145,7 +141,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias=".99">
 
         <TextView
             android:id="@+id/account"

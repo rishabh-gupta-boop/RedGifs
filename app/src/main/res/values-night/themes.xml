@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.RedGifs" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">#D82674</item>
+        <item name="colorPrimaryVariant">#cd26bc</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -15,5 +15,7 @@
 
         <!-- Remove black or white screen while just after opening app        -->
         <item name="android:windowDisablePreview">true</item>
+
+
     </style>
 </resources>

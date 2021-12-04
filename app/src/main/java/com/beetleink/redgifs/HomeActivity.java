@@ -2,18 +2,23 @@ package com.beetleink.redgifs;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.beetleink.redgifs.Fragments.PersonFrag.Authentication.RegistrationActivity;
 import com.beetleink.redgifs.Fragments.GifyFrag.Adapter;
 
 import com.beetleink.redgifs.Fragments.GifyFrag.GifyView;
 import com.beetleink.redgifs.Fragments.PersonFrag.PersonFragment;
+import com.beetleink.redgifs.Fragments.PersonFrag.main_menu.ChangeAccountType;
+import com.beetleink.redgifs.Fragments.PersonFrag.main_menu.DataUsage;
+import com.beetleink.redgifs.Fragments.PersonFrag.main_menu.SettingChangePassword;
 import com.beetleink.redgifs.Fragments.SavedFrag.SavedFragment;
 import com.beetleink.redgifs.Fragments.SearchFrag.SearchFragment;
 import com.beetleink.redgifs.Fragments.UplaodFrag.UploadFragment;
@@ -29,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     FirebaseAuth firebaseAuth;
     BottomNavigationView.OnNavigationItemSelectedListener navListener;
+    Toolbar toolbar;
 
 
     @Override
@@ -37,10 +43,12 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         isActivityRunning = true;
         init();
+        toolBar();
 
     }
 
 
+    //main-menu ..............................................
 
 
 
@@ -72,28 +80,29 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.home:
                         viewHolder.resumePlayer();
                         selectItem(0);
-
-
+                        toolbar.setVisibility(View.GONE);
                         return true;
                     case R.id.search:
                         viewHolder.pausePlayer();
                         selectItem(1);
+                        toolbar.setVisibility(View.GONE);
                         return true;
-//                    case R.id.upload:
-//                        viewHolder.pausePlayer();
-//                        selectItem(2);
-//                        return true;
                     case R.id.saved:
                         viewHolder.pausePlayer();
                         selectItem(3);
+                        toolbar.setVisibility(View.GONE);
                         return true;
                     case R.id.person:
                         viewHolder.pausePlayer();
                         if(firebaseAuth.getCurrentUser()==null) {
                             startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+                        }else{
+                            toolbar.setVisibility(View.VISIBLE);
+
+                            selectItem(4);
                         }
-                        Log.i("shit", "yes");
-                        selectItem(4);
+
+
                         return true;
                     default:
                         return false;
@@ -104,6 +113,38 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
+    void toolBar(){
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.main_menu);
+        toolbar.setVisibility(View.GONE);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.changePassword){
+                    Intent intent = new Intent(getApplicationContext(), SettingChangePassword.class);
+                    startActivity(intent);
+                }else if(item.getItemId()==R.id.changeAccountType){
+                    Intent intent = new Intent(getApplicationContext(), ChangeAccountType.class);
+                    startActivity(intent);
+                }else if(item.getItemId()==R.id.dataUsage){
+                    Intent intent = new Intent(getApplicationContext(), DataUsage.class);
+                    startActivity(intent);
+                }else if(item.getItemId()==R.id.logout){
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    if(auth.getCurrentUser()!=null){
+                        auth.signOut();
+                    }
+
+                }
+                return false;
+            }
+        });
+
+    }
+
+
 
     private void selectItem(int position) {
         switch (position) {
@@ -240,4 +281,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }
+
+
+
 }

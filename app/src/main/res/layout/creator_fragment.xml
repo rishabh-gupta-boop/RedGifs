@@ -162,36 +162,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                >
 
-                <TextView
-                    android:id="@+id/totalFollowingTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="10"
-                    android:textSize="15sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Following"
-                    android:textAlignment="center"
-                    android:layout_marginTop="4dp"
-                    android:textSize="12sp"
-                    android:textColor="@color/white"
-                    />
-
-            </LinearLayout>
 
 
         </LinearLayout>
@@ -217,15 +188,14 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/followOrEditTextView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/follow_gradient"
-                android:text="Edit"
+                android:background="@drawable/edit_account_button"
+                android:text="Edit Account"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
+                android:textSize="30sp"
                 />
 
 

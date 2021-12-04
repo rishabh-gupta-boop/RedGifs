@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/home"
-        android:title="Home"
-        android:icon="@drawable/ic_home_icon"
-        />
-    <item
-        android:id="@+id/search"
-        android:title="Search"
-        android:icon="@drawable/ic_search_icon"/>
-<!--    <item-->
-<!--        android:id="@+id/upload"-->
-<!--         />-->
-    <item
-        android:id="@+id/saved"
-        android:title="Saved"
-        android:icon="@drawable/bookmark"/>
-    <item
-        android:id="@+id/person"
-        android:title="Person"
-        android:icon="@drawable/ic_person_icon"/>
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/stack_menu"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item android:title="Change Password"
+                android:id="@+id/changePassword"/>
+            <item android:title="Change Account Type"
+                android:id="@+id/changeAccountType"/>
+            <item android:title="Data Usage"
+                android:id="@+id/dataUsage"/>
+            <item android:title="LogOut"
+                android:id="@+id/logout"/>
+        </menu>
+    </item>
 </menu>

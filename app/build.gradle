@@ -61,7 +61,13 @@ dependencies {
     //SearchBar
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
-    //CardView
+    //Google Auth
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
+    //google signin button
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
+
+
 
 
 

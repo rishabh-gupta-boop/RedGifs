@@ -30,7 +30,7 @@ public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
     public Adapter(Context context,ArrayList<String> locationArrayList) {
         this.locationArrayList= locationArrayList;
         this.context = context;
-        Log.i("pausework", "main yes");
+
     }
 
     public Adapter(){}
@@ -39,7 +39,7 @@ public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_layout_main,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_gify_items,parent,false);
 
         return new ViewHolder(view,context,locationArrayList);
 
