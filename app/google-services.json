@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "379261345324",
-    "firebase_url": "https://redgifs-6739a-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "redgifs-6739a",
-    "storage_bucket": "redgifs-6739a.appspot.com"
+    "project_number": "331138700807",
+    "project_id": "redvids-74db2",
+    "storage_bucket": "redvids-74db2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:379261345324:android:7d042045a4787c79cd7b89",
+        "mobilesdk_app_id": "1:331138700807:android:237b21d8354b74f2f2bca2",
         "android_client_info": {
-          "package_name": "com.beetleink.redgifs"
+          "package_name": "com.beetleink.redvids"
         }
       },
       "oauth_client": [
         {
-          "client_id": "379261345324-dm7ona4aa3lpocsjijb0765mdr6bjcpe.apps.googleusercontent.com",
+          "client_id": "331138700807-t5rerbmnlnqkgrb3neb2dml39krf83s8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beetleink.redvids",
+            "certificate_hash": "004cbcbbf936d0b5ce788875f390faeb37d666bb"
+          }
+        },
+        {
+          "client_id": "331138700807-agbp1tu38q6fs4bddngt0q8ol86fe2ph.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPJyE3vnXNP6A23qNGH0vUhueJRfjfodQ"
+          "current_key": "AIzaSyCwv8QN0aklDqNyVvB-AU0aLOrglelVFkg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "379261345324-dm7ona4aa3lpocsjijb0765mdr6bjcpe.apps.googleusercontent.com",
+              "client_id": "331138700807-agbp1tu38q6fs4bddngt0q8ol86fe2ph.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

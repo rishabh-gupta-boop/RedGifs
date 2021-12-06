@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RedGifs</string>
+    <string name="app_name">RedVids</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="usernameReg">Username</string>
@@ -10,6 +10,7 @@
     <string name="signin_redirect">Already a member? Sign in!</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="signup_redirect">Don\'t have an account? Register here!</string>
+    <string name="client_id_for_google">331138700807-agbp1tu38q6fs4bddngt0q8ol86fe2ph.apps.googleusercontent.com</string>
 
 
 </resources>

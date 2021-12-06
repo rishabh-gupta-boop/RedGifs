@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:andriod="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.beetleink.redgifs">
+    package="com.beetleink.redvids">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,9 +11,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/Theme.RedGifs"
+        android:theme="@style/Theme.RedVids"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Fragments.PersonFrag.EditAccount"></activity>
+        <activity android:name=".Fragments.PersonFrag.EditAccount" />
         <activity android:name=".Fragments.PersonFrag.main_menu.LogOut" />
         <activity android:name=".Fragments.PersonFrag.main_menu.DataUsage" />
         <activity android:name=".Fragments.PersonFrag.main_menu.ChangeAccountType" />
