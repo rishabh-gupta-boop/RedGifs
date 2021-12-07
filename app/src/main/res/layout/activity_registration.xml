@@ -45,7 +45,7 @@
 
 
             <AutoCompleteTextView
-                android:id="@+id/atvUsernameReg"
+                android:id="@+id/inputRegistrationUsername"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
@@ -53,16 +53,18 @@
                 android:drawableStart="@drawable/icon_person"
                 android:drawableLeft="@drawable/icon_person"
                 android:drawablePadding="10dp"
-                android:hint="Your Nick Name"
+                android:hint="UserName-"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:tag="Username"
+                />
 
 
             <AutoCompleteTextView
-                android:id="@+id/atvEmailReg"
+                android:id="@+id/inputEmailRegistration"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
@@ -76,11 +78,12 @@
                 android:paddingEnd="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:tag="Email"/>
 
 
             <AutoCompleteTextView
-                android:id="@+id/atvPasswordReg"
+                android:id="@+id/inputRegistrationPassword"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
@@ -94,7 +97,26 @@
                 android:paddingEnd="10dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:tag="Password"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/inputRegistrationConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/rounded_rect"
+                android:drawableStart="@drawable/icon_password"
+                android:drawableLeft="@drawable/icon_password"
+                android:drawablePadding="10dp"
+                android:hint="@string/ConfirmPasswordReg"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray"
+                android:textSize="15sp"
+                android:tag="Confirm Password"/>
 
 
             <Button

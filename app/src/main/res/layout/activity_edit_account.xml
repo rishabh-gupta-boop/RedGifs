@@ -25,6 +25,7 @@
             />
 
         <TextView
+            android:id="@+id/changeProfilePics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/circular_dp"
@@ -44,16 +45,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="30dp"
-        android:textColorHint="@color/white"
+        android:textColorHint="#85FFFFFF"
 
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="username"
-            android:textColor="@color/white"
             android:background="@drawable/rectangle_boder_input"
+            android:hint="username"
+
+            android:textColor="@color/white"
 
             />
 
@@ -61,7 +64,7 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/confirmNewPasswordSubmitButton"
+        android:id="@+id/confirmNewUserNameButton"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
