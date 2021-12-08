@@ -63,6 +63,8 @@ public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
         holder.onPrepare(holder.getPosition());
         holder.resumePlayer();
 
+
+
     }
 
     @Override

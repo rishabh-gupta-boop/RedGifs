@@ -44,7 +44,10 @@
 
 
 
-            <AutoCompleteTextView
+            <com.andreabaccega.widget.FormEditText
+                app:testType="alphaNumeric"
+                app:emptyErrorString="Cannot be empty"
+                app:testErrorString="Only alphabet or number"
                 android:id="@+id/inputRegistrationUsername"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -62,8 +65,10 @@
                 android:tag="Username"
                 />
 
-
-            <AutoCompleteTextView
+            <com.andreabaccega.widget.FormEditText
+                app:testType="email"
+                app:emptyErrorString="Cannot be empty"
+                app:testErrorString="Type valid email"
                 android:id="@+id/inputEmailRegistration"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -82,8 +87,9 @@
                 android:tag="Email"/>
 
 
-            <AutoCompleteTextView
+            <com.andreabaccega.widget.FormEditText
                 android:id="@+id/inputRegistrationPassword"
+                app:emptyErrorString="Cannot be empty"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
@@ -100,9 +106,13 @@
                 android:textSize="15sp"
                 android:tag="Password"/>
 
-            <AutoCompleteTextView
+            <com.andreabaccega.widget.FormEditText
                 android:id="@+id/inputRegistrationConfirmPassword"
                 android:layout_width="match_parent"
+                app:testType="regexp"
+                app:customRegexp="(.+){8,16}"
+                app:testErrorString="Password must be more than 8 digits"
+                app:emptyErrorString="Cannot be empty"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_rect"

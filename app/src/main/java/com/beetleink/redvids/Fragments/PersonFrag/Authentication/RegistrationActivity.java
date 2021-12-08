@@ -7,8 +7,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.andreabaccega.widget.EditTextValidator;
+import com.andreabaccega.widget.FormEditText;
 import com.beetleink.redvids.Fragments.PersonFrag.EditAccount;
 import com.beetleink.redvids.HomeActivity;
 import com.beetleink.redvids.Fragments.GifyFrag.Adapter;
@@ -41,17 +45,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
-import com.validator.easychecker.EasyChecker;
-import com.validator.easychecker.exceptions.DeveloperErrorException;
-import com.validator.easychecker.exceptions.InputErrorException;
-import com.validator.easychecker.util.PasswordPattern;
 
 import static android.content.ContentValues.TAG;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private ImageView logo;
-    private AutoCompleteTextView inputRegistrationUsername, inputEmailRegistration, inputRegistrationPassword,inputRegistrationConfirmPassword;
+    private FormEditText inputRegistrationUsername, inputEmailRegistration, inputRegistrationPassword,inputRegistrationConfirmPassword;
     private Button signup;
     private TextView signin;
     private ProgressDialog progressDialog;
@@ -91,6 +91,7 @@ public class RegistrationActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         googleSignInButton = findViewById(R.id.googleSignInButton);
 
+
     }
 
     //Firebase email signin process started or login process started.....
@@ -98,7 +99,7 @@ public class RegistrationActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Validator();
+                Validator(inputRegistrationUsername, inputEmailRegistration, inputRegistrationPassword,inputRegistrationConfirmPassword);
             }
         });
 
@@ -113,29 +114,39 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     //match confirm password and password text are matched in real time
-     void Validator(){
-         try {
-             boolean isValidationSuccess = EasyChecker.Instance.validateInput(
-                     RegistrationActivity.this,
-                     8,
-                     PasswordPattern.PASSWORD_PATTERN_ONE,
-                     inputRegistrationUsername,
-                     inputEmailRegistration,
-                     inputRegistrationPassword,
-                     inputRegistrationConfirmPassword
-             );
-             if(isValidationSuccess){
-                 Log.i("everythingg", "fine");
-             }else{
-                 //if not validated
-                 Log.i("everythingg", "fineWrong");
-             }
-         }catch (InputErrorException inputErrorException ) {
-             Toast.makeText(this, inputErrorException.getMessage(), Toast.LENGTH_SHORT).show();
-             Log.i("everythinggg", inputErrorException.toString());
-         }catch (DeveloperErrorException developerErrorException){
-             Log.i("everythinggg", developerErrorException.toString());
+     private Boolean Validator(FormEditText Username,FormEditText Email,
+                               FormEditText Password,FormEditText ConfirmPassword){
+         FormEditText[] allFields	= { Username, Email, Password, ConfirmPassword };
+         boolean allValid = false;
+         for (FormEditText field: allFields) {
+             allValid = field.testValidity() && allValid;
          }
+
+         if (allValid) {
+             // YAY
+             allValid= true;
+
+         } else {
+             // EditText are going to appear with an exclamation mark and an explicative message.
+             allValid = false;
+
+
+         }
+
+         //password confirmation
+
+         if(Password.getText().toString().equals(ConfirmPassword.getText().toString())){
+             allValid=true;
+         }else{
+             //set error message
+             inputRegistrationConfirmPassword.setError("Password is not matching");
+             allValid=false;
+         }
+
+         Toast.makeText(this, "Registering...", Toast.LENGTH_SHORT).show();
+         return allValid;
+
+
      }
 
 

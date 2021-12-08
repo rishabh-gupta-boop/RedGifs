@@ -87,6 +87,7 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
         MediaItem mediaItem = MediaItem.fromUri(locationArrayList.get(position));
         player.setMediaItem(mediaItem);
         player.prepare();
+        player.setVolume(0f);
 
     }
 
