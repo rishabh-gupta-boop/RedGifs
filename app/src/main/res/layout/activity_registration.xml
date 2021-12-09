@@ -45,13 +45,14 @@
 
 
             <com.andreabaccega.widget.FormEditText
-                app:testType="alphaNumeric"
+                app:testType="regexp"
+                app:customRegexp="[a-zA-Z0-9]{5,25}"
+                app:testErrorString="username is too short or having any symbols"
                 app:emptyErrorString="Cannot be empty"
-                app:testErrorString="Only alphabet or number"
                 android:id="@+id/inputRegistrationUsername"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginBottom="10dp"
+                android:maxLines="1"
                 android:background="@drawable/rounded_rect"
                 android:drawableStart="@drawable/icon_person"
                 android:drawableLeft="@drawable/icon_person"
@@ -63,10 +64,23 @@
                 android:textColorHint="@color/gray"
                 android:textSize="15sp"
                 android:tag="Username"
+
                 />
+
+            <TextView
+                android:id="@+id/usernameErrorMessage"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="here is your error"
+                android:paddingStart="35dp"
+                android:textColor="#D61313"
+                android:visibility="gone"/>
+
 
             <com.andreabaccega.widget.FormEditText
                 app:testType="email"
+                android:maxLines="1"
                 app:emptyErrorString="Cannot be empty"
                 app:testErrorString="Type valid email"
                 android:id="@+id/inputEmailRegistration"
@@ -89,8 +103,12 @@
 
             <com.andreabaccega.widget.FormEditText
                 android:id="@+id/inputRegistrationPassword"
+                app:testType="regexp"
+                app:customRegexp="(.+){8,16}"
+                app:testErrorString="Password must be more than 8 digits"
                 app:emptyErrorString="Cannot be empty"
                 android:layout_width="match_parent"
+                android:maxLines="1"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_rect"
@@ -109,9 +127,7 @@
             <com.andreabaccega.widget.FormEditText
                 android:id="@+id/inputRegistrationConfirmPassword"
                 android:layout_width="match_parent"
-                app:testType="regexp"
-                app:customRegexp="(.+){8,16}"
-                app:testErrorString="Password must be more than 8 digits"
+                android:maxLines="1"
                 app:emptyErrorString="Cannot be empty"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"

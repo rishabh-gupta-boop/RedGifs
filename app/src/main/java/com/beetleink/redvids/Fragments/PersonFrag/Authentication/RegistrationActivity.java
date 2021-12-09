@@ -5,12 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,14 +38,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 
@@ -59,6 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     GoogleSignInButton googleSignInButton;
     public static GoogleSignInAccount account;
+    TextView usernameErrorMessage;
 
 
     @Override
@@ -67,6 +77,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
         initializeGUI();
         emailSignProcessButtonPressed();
+        onTextChangeListenerForUsername(inputRegistrationUsername);
 
     }
 
@@ -84,12 +95,14 @@ public class RegistrationActivity extends AppCompatActivity {
         inputEmailRegistration =  findViewById(R.id.inputEmailRegistration);
         inputRegistrationPassword = findViewById(R.id.inputRegistrationPassword);
         inputRegistrationConfirmPassword = findViewById(R.id.inputRegistrationConfirmPassword);
+        usernameErrorMessage = findViewById(R.id.usernameErrorMessage);
 
         signin = findViewById(R.id.tvSignIn);
         signup = findViewById(R.id.btnSignUp);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         googleSignInButton = findViewById(R.id.googleSignInButton);
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
 
     }
@@ -99,11 +112,20 @@ public class RegistrationActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Validator(inputRegistrationUsername, inputEmailRegistration, inputRegistrationPassword,inputRegistrationConfirmPassword);
+                //after Registration form validated
+                if(Validator(inputRegistrationUsername, inputEmailRegistration, inputRegistrationPassword,inputRegistrationConfirmPassword)){
+
+
+                    //Done Registration with firebase auth email
+                    String newUsername = inputRegistrationUsername.getText().toString()+"@redvids.com";
+                    registerFromFirebaseEmailPassword(newUsername,inputRegistrationPassword.getText().toString(),inputEmailRegistration.getText().toString());
+
+
+                };
             }
         });
 
-
+        //Login button Pressed!
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,42 +135,106 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-    //match confirm password and password text are matched in real time
+    //validate the user input that they fill in registration form...
      private Boolean Validator(FormEditText Username,FormEditText Email,
                                FormEditText Password,FormEditText ConfirmPassword){
          FormEditText[] allFields	= { Username, Email, Password, ConfirmPassword };
-         boolean allValid = false;
+         boolean allValid = true;
          for (FormEditText field: allFields) {
              allValid = field.testValidity() && allValid;
          }
 
-         if (allValid) {
-             // YAY
-             allValid= true;
-
-         } else {
-             // EditText are going to appear with an exclamation mark and an explicative message.
-             allValid = false;
-
+         if (!allValid) {
+             // user didn't type as define
+             return  false;
 
          }
 
          //password confirmation
-
          if(Password.getText().toString().equals(ConfirmPassword.getText().toString())){
-             allValid=true;
+             return  true;
          }else{
              //set error message
              inputRegistrationConfirmPassword.setError("Password is not matching");
-             allValid=false;
+             return  false;
          }
 
-         Toast.makeText(this, "Registering...", Toast.LENGTH_SHORT).show();
-         return allValid;
+
+
+
+
 
 
      }
 
 
+    //From FirebaseAuthRegister Username and password in email auth
+    private void registerFromFirebaseEmailPassword(final String inputUsernamme, final String inputPassword, final  String inputEmail) {
+
+        Toast.makeText(getApplicationContext(), "Checking...", Toast.LENGTH_SHORT).show();
+
+
+        //creating new username password and email in firebase auth
+
+        firebaseAuth.createUserWithEmailAndPassword(inputUsernamme,inputPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    sendUserDataToFirebaseDatabase(inputUsernamme,inputPassword,inputEmail);
+
+                }else if(task.getException().getClass().getSimpleName().equals("FirebaseAuthUserCollisionException")) {
+                    //give output of the username that already exist
+                    usernameErrorMessage.setVisibility(View.VISIBLE);
+                    usernameErrorMessage.setText("username already exist");
+                }else{
+                    Toast.makeText(RegistrationActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
 }
+    //sending user data to firebase database from firebase AUth after registered
+    private void sendUserDataToFirebaseDatabase(String inputUsernamme, String inputPassword, String inputEmail) {
+
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference users = firebaseDatabase.getReference().child("users").child(firebaseAuth.getUid());
+            users.child("username").setValue(inputUsernamme);
+            users.child("email").setValue(inputEmail);
+            users.child("password").setValue(inputPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Intent intent = new Intent(RegistrationActivity.this, EditAccount.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+    //function to remove visibility when any key change in editText of username
+    void onTextChangeListenerForUsername(FormEditText formEditText){
+        formEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                usernameErrorMessage.setVisibility(View.GONE);
+
+            }
+        });
+    }
+
+
+}
+
+
+
 
