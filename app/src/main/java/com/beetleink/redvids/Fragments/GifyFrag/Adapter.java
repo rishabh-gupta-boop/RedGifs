@@ -14,22 +14,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.beetleink.redvids.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
 //    ArrayList<SoundGif> soundGifs = new ArrayList<>();
-    ArrayList<String> locationArrayList = new ArrayList<>();
+    ArrayList<String> locationArrayList,like,username = new ArrayList<>();
+
+    ArrayList<List<String>> tags;
     Context context;
     static public ViewHolder viewHolder;
 
 
 
 
-
-        ///Calling soundgifs variables in arraylist//
+    ///Calling soundgifs variables in arraylist//
 //        ArrayList<SoundGif> soundGifs
-    public Adapter(Context context,ArrayList<String> locationArrayList) {
+    public Adapter(Context context,ArrayList<String> locationArrayList,ArrayList<String> likes,ArrayList<String> username, ArrayList<List<String>> tags){
         this.locationArrayList= locationArrayList;
         this.context = context;
+        this.like = likes;
+        this.username = username;
+        this.tags = tags;
+
 
     }
 
@@ -41,7 +47,7 @@ public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_gify_items,parent,false);
 
-        return new ViewHolder(view,context,locationArrayList);
+        return new ViewHolder(view,context,locationArrayList,like,username,tags);
 
 
     }

@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,6 +29,8 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
     ProgressBar progressBar;
     CircleImageView circular_dp;
     Player player;
+    ArrayList<String> gifLikes,userName;
+    ArrayList<List<String>> tags = new ArrayList<>();
 
 
 
@@ -43,11 +46,17 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
 
 
 
-    public ViewHolder(View itemView, Context context, ArrayList<String> locationArrayList) {
+
+    public ViewHolder(View itemView, Context context, ArrayList<String> locationArrayList,ArrayList<String> gifslikes, ArrayList<String> userName, ArrayList<List<String>> tags) {
         super(itemView);
         this.context = context;
 //        this.soundGifs= soundGifs;
         this.locationArrayList = locationArrayList;
+        this.gifLikes = gifslikes;
+        this.userName = userName;
+        this.tags = tags;
+
+
 
 
         disc = itemView.findViewById(R.id.disk);
@@ -82,12 +91,15 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
 
     public void onPrepare(int position) {
 //        viewPager2View.setVideoPath(soundGifs.get(position).urls.get("sd"));
+        like.setText(gifLikes.get(position));
+        account.setText(userName.get(position));
+        description.setText(tags.get(position).toString());
         player = new ExoPlayer.Builder(context).build();
         viewPager2View.setPlayer(player);
         MediaItem mediaItem = MediaItem.fromUri(locationArrayList.get(position));
         player.setMediaItem(mediaItem);
         player.prepare();
-        player.setVolume(0f);
+//        player.setVolume(0f);
 
     }
 
