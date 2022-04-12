@@ -1,13 +1,20 @@
 package com.beetleink.redvids.Fragments.GifyFrag;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beetleink.redvids.Fragments.PersonFrag.Authentication.LoginActivity;
 import com.beetleink.redvids.R;
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -49,6 +56,8 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
 
     public ViewHolder(View itemView, Context context, ArrayList<String> locationArrayList,ArrayList<String> gifslikes, ArrayList<String> userName, ArrayList<List<String>> tags) {
         super(itemView);
+
+
         this.context = context;
 //        this.soundGifs= soundGifs;
         this.locationArrayList = locationArrayList;
@@ -81,6 +90,18 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
         //videoview and player
         viewPager2View = itemView.findViewById(R.id.viewPager2View);
 
+        imageLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(LoginActivity.token!=null){
+                    ViewDialog alert = new ViewDialog();
+                    alert.showDialog(context);
+                }else{
+                    ViewDialog alert = new ViewDialog();
+                    alert.showDialog(context);
+                }
+            }
+        });
 
 
 
@@ -133,4 +154,20 @@ public  class ViewHolder extends  RecyclerView.ViewHolder{
 
 
 
+}
+
+
+class ViewDialog {
+
+    public void showDialog(Context context){
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.custom_dialog_to_alert_login_or_create_account);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        TextView loginNowButton = (TextView) dialog.findViewById(R.id.loginNowButton);
+        TextView CreateNewAccount = (TextView) dialog.findViewById(R.id.CreateNewAccount);
+        dialog.show();
+
+    }
 }

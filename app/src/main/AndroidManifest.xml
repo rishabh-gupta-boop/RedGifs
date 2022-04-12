@@ -14,6 +14,8 @@
         android:theme="@style/Theme.RedVids"
         android:usesCleartextTraffic="true">
         <activity android:name=".Fragments.PersonFrag.EditAccount" />
+<!--        <activity android:name=".Fragments.PersonFrag.PersonFragment"-->
+<!--            tools:ignore="Instantiatable" />-->
         <activity android:name=".Fragments.PersonFrag.main_menu.LogOut" />
         <activity android:name=".Fragments.PersonFrag.main_menu.DataUsage" />
         <activity android:name=".Fragments.PersonFrag.main_menu.ChangeAccountType" />

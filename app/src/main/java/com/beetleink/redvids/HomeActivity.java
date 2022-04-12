@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.beetleink.redvids.Fragments.PersonFrag.Authentication.LoginActivity;
 import com.beetleink.redvids.Fragments.PersonFrag.Authentication.RegistrationActivity;
 import com.beetleink.redvids.Fragments.GifyFrag.Adapter;
 
@@ -18,6 +19,7 @@ import com.beetleink.redvids.Fragments.GifyFrag.GifyView;
 import com.beetleink.redvids.Fragments.PersonFrag.PersonFragment;
 import com.beetleink.redvids.Fragments.PersonFrag.main_menu.ChangeAccountType;
 import com.beetleink.redvids.Fragments.PersonFrag.main_menu.DataUsage;
+import com.beetleink.redvids.Fragments.PersonFrag.main_menu.LogOut;
 import com.beetleink.redvids.Fragments.PersonFrag.main_menu.SettingChangePassword;
 import com.beetleink.redvids.Fragments.SavedFrag.SavedFragment;
 import com.beetleink.redvids.Fragments.SearchFrag.SearchFragment;
@@ -31,10 +33,11 @@ import static com.beetleink.redvids.Fragments.GifyFrag.Adapter.viewHolder;
 public class HomeActivity extends AppCompatActivity {
 
     boolean isActivityRunning = false;
-    FragmentManager fragmentManager;
+    public static  boolean defaultChange = false;
     FirebaseAuth firebaseAuth;
     BottomNavigationView.OnNavigationItemSelectedListener navListener;
     Toolbar toolbar;
+    public static FragmentManager fragmentManager;
 
 
     @Override
@@ -66,11 +69,31 @@ public class HomeActivity extends AppCompatActivity {
        Adapter.viewHolder.releasePlayer();
     }
 
+
+    //after login fragment switch to personFragment
+    public static void afterLoginDefaultFramentChange(String change){
+        if(change=="yes"){
+            defaultChange=true;
+
+        }else{
+            defaultChange=false;
+
+        }
+
+
+
+    }
+
     private void init() {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new GifyView(),"zero").commit();
+
         fragmentManager = getSupportFragmentManager();
         firebaseAuth = FirebaseAuth.getInstance();
+        if(defaultChange){
+            getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new PersonFragment(),"four").commit();
+        }else{
+            getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new GifyView(),"zero").commit();
+        }
 
 
         bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -78,24 +101,35 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        viewHolder.resumePlayer();
+                        if(viewHolder!=null){
+                            viewHolder.resumePlayer();
+                        }
+
                         selectItem(0);
                         toolbar.setVisibility(View.GONE);
                         return true;
                     case R.id.search:
-                        viewHolder.pausePlayer();
+                        if(viewHolder!=null){
+                            viewHolder.pausePlayer();
+                        }
+
                         selectItem(1);
                         toolbar.setVisibility(View.GONE);
                         return true;
                     case R.id.saved:
-                        viewHolder.pausePlayer();
+                        if(viewHolder!=null){
+                            viewHolder.pausePlayer();
+                        }
                         selectItem(3);
                         toolbar.setVisibility(View.GONE);
                         return true;
                     case R.id.person:
-                        viewHolder.pausePlayer();
+                        if(viewHolder!=null){
+                            viewHolder.pausePlayer();
+                        }
                         if(firebaseAuth.getCurrentUser()==null) {
-                            startActivity(new Intent(getApplicationContext(), RegistrationActivity.class));
+                            Log.i("nullValueFound", "yes");
+                            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         }else{
                             toolbar.setVisibility(View.VISIBLE);
 
@@ -132,10 +166,12 @@ public class HomeActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), DataUsage.class);
                     startActivity(intent);
                 }else if(item.getItemId()==R.id.logout){
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                    if(auth.getCurrentUser()!=null){
-                        auth.signOut();
-                    }
+//                    FirebaseAuth auth = FirebaseAuth.getInstance();
+//                    if(auth.getCurrentUser()!=null){
+//                        auth.signOut();
+//                    }
+                    Intent intent = new Intent(getApplicationContext(), LogOut.class);
+                    startActivity(intent);
 
                 }
                 return false;
@@ -146,7 +182,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-    private void selectItem(int position) {
+    public static   void selectItem(int position) {
         switch (position) {
             case 0:
                 if (fragmentManager.findFragmentByTag("zero") != null) {

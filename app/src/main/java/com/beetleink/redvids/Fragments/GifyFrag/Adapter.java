@@ -39,7 +39,7 @@ public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
 
     }
 
-    public Adapter(){}
+
 
 
     @NonNull

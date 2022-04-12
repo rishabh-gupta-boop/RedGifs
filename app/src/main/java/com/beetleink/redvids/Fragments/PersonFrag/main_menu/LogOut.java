@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.beetleink.redvids.Fragments.PersonFrag.Authentication.LoginActivity;
 import com.beetleink.redvids.Fragments.PersonFrag.Authentication.RegistrationActivity;
 import com.beetleink.redvids.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +20,7 @@ public class LogOut extends AppCompatActivity {
         setContentView(R.layout.activity_logout);
         auth = FirebaseAuth.getInstance();
         auth.signOut();
-        Intent intent = new Intent(this, RegistrationActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 }

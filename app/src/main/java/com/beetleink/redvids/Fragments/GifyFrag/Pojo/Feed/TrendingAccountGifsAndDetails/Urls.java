@@ -1,5 +1,5 @@
 
-package com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed;
+package com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;

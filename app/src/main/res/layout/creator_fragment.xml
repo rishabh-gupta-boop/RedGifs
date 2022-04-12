@@ -17,15 +17,16 @@
             >
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                app:civ_border_width="2dp"
                 app:elevation="8dp"
                 android:src="@drawable/default_profile_pic"
                 android:layout_marginEnd="20dp" />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,6 +70,7 @@
                     android:layout_weight="1"
                     android:maxLines="100"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     />
 
 
@@ -110,7 +112,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/totalPostTextView"
+                    android:id="@+id/totalFollowerTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -122,7 +124,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Posts"
+                    android:text="Followers"
                     android:textColor="@color/white"
                     android:textAlignment="center"
                     android:layout_marginTop="4dp"
@@ -141,7 +143,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/totalFollowerTextView"
+                    android:id="@+id/totalViewTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -153,7 +155,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Followers"
+                    android:text="Views"
                     android:textAlignment="center"
                     android:layout_marginTop="4dp"
                     android:textSize="12sp"

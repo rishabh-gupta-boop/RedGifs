@@ -1,5 +1,5 @@
 
-package com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed;
+package com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails;
 
 import java.util.List;
 import javax.annotation.Generated;
@@ -38,7 +38,7 @@ public class Gif {
     private Integer views;
     @SerializedName("duration")
     @Expose
-    private Double duration;
+    private Integer duration;
     @SerializedName("published")
     @Expose
     private Boolean published;
@@ -130,11 +130,11 @@ public class Gif {
         this.views = views;
     }
 
-    public Double getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Double duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

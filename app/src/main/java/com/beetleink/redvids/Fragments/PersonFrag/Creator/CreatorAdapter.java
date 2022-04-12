@@ -1,6 +1,7 @@
 package com.beetleink.redvids.Fragments.PersonFrag.Creator;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 
 public class CreatorAdapter extends RecyclerView.Adapter<CreatorViewHolder>  {
    Context context;
-    ArrayList<Integer> imagesArrayList;
+    ArrayList<String> imagesArrayList;
 
-    public CreatorAdapter(Context context, ArrayList<Integer> imagesArrayList) {
+    public CreatorAdapter(Context context, ArrayList<String> imagesArrayList) {
         this.context = context;
         this.imagesArrayList = imagesArrayList;
     }
@@ -37,6 +38,7 @@ public class CreatorAdapter extends RecyclerView.Adapter<CreatorViewHolder>  {
         Glide.with(context)
                 .load(imagesArrayList.get(position))
                 .into(holder.imageView);
+
     }
 
     @Override
