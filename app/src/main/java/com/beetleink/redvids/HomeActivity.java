@@ -33,10 +33,10 @@ import static com.beetleink.redvids.Fragments.GifyFrag.Adapter.viewHolder;
 public class HomeActivity extends AppCompatActivity {
 
     boolean isActivityRunning = false;
-    public static  boolean defaultChange = false;
+    public static  int defaultChange = -1;
     FirebaseAuth firebaseAuth;
     BottomNavigationView.OnNavigationItemSelectedListener navListener;
-    Toolbar toolbar;
+    public  static Toolbar toolbar;
     public static FragmentManager fragmentManager;
 
 
@@ -72,11 +72,12 @@ public class HomeActivity extends AppCompatActivity {
 
     //after login fragment switch to personFragment
     public static void afterLoginDefaultFramentChange(String change){
-        if(change=="yes"){
-            defaultChange=true;
+        if(change.equals("login")){
+            defaultChange=4;
 
-        }else{
-            defaultChange=false;
+        }else if(change.equals("home")){
+            selectItem(0);
+            toolbar.setVisibility(View.GONE);
 
         }
 
@@ -89,9 +90,10 @@ public class HomeActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         firebaseAuth = FirebaseAuth.getInstance();
-        if(defaultChange){
+        if(defaultChange==4){
             getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new PersonFragment(),"four").commit();
         }else{
+
             getSupportFragmentManager().beginTransaction().add(R.id.relativeLayout, new GifyView(),"zero").commit();
         }
 
@@ -104,7 +106,6 @@ public class HomeActivity extends AppCompatActivity {
                         if(viewHolder!=null){
                             viewHolder.resumePlayer();
                         }
-
                         selectItem(0);
                         toolbar.setVisibility(View.GONE);
                         return true;

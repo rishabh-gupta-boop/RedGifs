@@ -17,10 +17,14 @@ import java.util.ArrayList;
 public class CreatorAdapter extends RecyclerView.Adapter<CreatorViewHolder>  {
    Context context;
     ArrayList<String> imagesArrayList;
+    CreatorViewHolder.OnRecyclerViewItemListener onRecyclerViewItemListener;
 
-    public CreatorAdapter(Context context, ArrayList<String> imagesArrayList) {
+
+
+    public CreatorAdapter(Context context, ArrayList<String> imagesArrayList, CreatorViewHolder.OnRecyclerViewItemListener onRecyclerViewItemListener) {
         this.context = context;
         this.imagesArrayList = imagesArrayList;
+        this.onRecyclerViewItemListener = onRecyclerViewItemListener;
     }
 
     @NonNull
@@ -28,7 +32,7 @@ public class CreatorAdapter extends RecyclerView.Adapter<CreatorViewHolder>  {
     public CreatorViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.creator_imageview_recycler,
                 parent, false);
-        return new CreatorViewHolder(view);
+        return new CreatorViewHolder(view,onRecyclerViewItemListener);
     }
 
 
@@ -48,5 +52,7 @@ public class CreatorAdapter extends RecyclerView.Adapter<CreatorViewHolder>  {
 
 
 
-
 }
+
+
+

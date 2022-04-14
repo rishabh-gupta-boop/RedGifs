@@ -23,6 +23,7 @@ public class Adapter  extends RecyclerView.Adapter<ViewHolder> {
     ArrayList<List<String>> tags;
     Context context;
     static public ViewHolder viewHolder;
+    public static Integer positionFound = -1;
 
 
 

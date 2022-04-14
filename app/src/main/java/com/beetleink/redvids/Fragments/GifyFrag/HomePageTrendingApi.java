@@ -3,6 +3,7 @@ package com.beetleink.redvids.Fragments.GifyFrag;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TopTrendingAccount.Feed;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails.TopAccountBestGifs;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Login.ReceiverLoginCred;
+import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Login.RefreshToken;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.UserProfile.UserProfile;
 
 
@@ -41,6 +42,11 @@ public interface HomePageTrendingApi {
             @Query("order") String OrderType,
             @Query("type") String typeType,
             @Query("page") Integer PageNumber
+    );
+
+    @POST("v2/oauth/refresh")
+    Call<RefreshToken> getRefreshToken(
+            @Field("refresh_token") String refreshToken
     );
 
 

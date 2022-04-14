@@ -1,5 +1,6 @@
 package com.beetleink.redvids.Fragments.GifyFrag;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,8 +16,6 @@ import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TopTrendingAccount.Fee
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TopTrendingAccount.Item;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails.Gif;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails.TopAccountBestGifs;
-import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Login.ReceiverLoginCred;
-import com.beetleink.redvids.Fragments.GifyFrag.Pojo.UserProfile.UserProfile;
 import com.beetleink.redvids.R;
 
 import java.util.ArrayList;
@@ -29,16 +28,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GifyView extends Fragment {
-    ViewPager2 viewPager2;
+    public static ViewPager2 viewPager2;
 //    ArrayList<SoundGif> soundGifs = new ArrayList<>();
 //    ArrayList<String> locationArrayList = new ArrayList<>();
     ArrayList<String> likes,description,username, comments,profileImage;
     ArrayList<List<String>> tags;
     HomePageTrendingApi homePageFeedApi;
     Retrofit retrofit;
-    Adapter adapter;
+    public  static Adapter adapter;
     List<String> trendinguserlist;
     ArrayList<String> sdUrlsList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,8 +133,7 @@ public class GifyView extends Fragment {
                             Log.i("asdfasdfHereBitch", String.valueOf(response.code()));
                         }
 
-                        adapter = new Adapter(view.getContext(), sdUrlsList,likes,username,tags);
-                        viewPager2.setAdapter(adapter);
+                        adapterMethod(view.getContext(), sdUrlsList,likes,username,tags);
 
                     }
 
@@ -154,12 +153,11 @@ public class GifyView extends Fragment {
 
     }
 
-
-
-
-
-
-
+    //get new list of gifs to load in feed
+    public static void adapterMethod(Context context, ArrayList<String> sdUrlsList, ArrayList<String> likes, ArrayList<String> username, ArrayList<List<String>> tags ){
+        adapter = new Adapter(context, sdUrlsList,likes,username,tags);
+        viewPager2.setAdapter(adapter);
+    }
 
 
 

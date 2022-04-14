@@ -2,6 +2,7 @@ package com.beetleink.redvids.Fragments.PersonFrag.Authentication;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,16 +45,18 @@ public class LoginActivity extends AppCompatActivity {
     private AutoCompleteTextView email, password;
     private TextView forgotPass, signUp;
     private Button btnSignIn;
-    private FirebaseAuth firebaseAuth;
+    public static FirebaseAuth firebaseAuth;
     TextView webCreateNewAccount;
 
-    private ProgressDialog progressDialog;
+    public static  ProgressDialog progressDialog;
     public  static String token;
     public  static String tokenType;
+    public  static String refreshToken;
     HomePageTrendingApi homePageFeedApi;
     Retrofit retrofit;
-    FirebaseDatabase firebaseDatabase;
+    public static FirebaseDatabase firebaseDatabase;
     FragmentManager fragmentManager;
+
 
 
     @Override
@@ -192,6 +195,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("successfulll1", response.body().getAccessToken());
                     token = response.body().getAccessToken();
                     tokenType = response.body().getTokenType();
+                    refreshToken = response.body().getRefreshToken();
+
 
                     //creating new username password and email in firebase auth
 
@@ -199,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                sendUserDataToFirebaseDatabase(userName+"@redvids.com",passWord,token,tokenType);
+                                sendUserDataToFirebaseDatabase(userName+"@redvids.com",passWord,token,tokenType,refreshToken);
 
 
                             }else if(task.getException().getClass().getSimpleName().equals("FirebaseAuthUserCollisionException")) {
@@ -213,7 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(task.isSuccessful()){
                                             progressDialog.dismiss();
                                             Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                                            HomeActivity.afterLoginDefaultFramentChange("yes");
+                                            updateTokenAndTokenType();
                                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                             startActivity(intent);
 
@@ -261,24 +266,45 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //sending user data to firebase database from firebase AUth after registered
-    private void sendUserDataToFirebaseDatabase(String inputUsernamme, String inputPassword, String token,String tokenType) {
+    private void sendUserDataToFirebaseDatabase(String inputUsernamme, String inputPassword, String token,String tokenType,String refreshToken) {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference users = firebaseDatabase.getReference().child("users").child(firebaseAuth.getUid());
         users.child("username").setValue(inputUsernamme);
         users.child("token").setValue(token);
         users.child("tokenType").setValue(tokenType);
+        users.child("refreshToken").setValue(refreshToken);
         users.child("password").setValue(inputPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
 
-                HomeActivity.afterLoginDefaultFramentChange("yes");
+                HomeActivity.afterLoginDefaultFramentChange("login");
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });
     }
+
+
+    //update token
+    public  void updateTokenAndTokenType(){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference users = firebaseDatabase.getReference().child("users").child(firebaseAuth.getUid());
+        Log.i("refreshtokenNOTwORK", "YES");
+        users.child("token").setValue(token);
+        users.child("tokenType").setValue(tokenType);
+        users.child("refreshToken").setValue(refreshToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                progressDialog.dismiss();
+                Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
+                HomeActivity.afterLoginDefaultFramentChange("login");
+
+            }
+        });
+    }
+
 
 }

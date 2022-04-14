@@ -1,14 +1,11 @@
 package com.beetleink.redvids.Fragments.PersonFrag;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -24,32 +21,32 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.beetleink.redvids.Fragments.GifyFrag.Adapter;
+import com.beetleink.redvids.Fragments.GifyFrag.GifyView;
 import com.beetleink.redvids.Fragments.GifyFrag.HomePageTrendingApi;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails.Gif;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Feed.TrendingAccountGifsAndDetails.TopAccountBestGifs;
+import com.beetleink.redvids.Fragments.GifyFrag.Pojo.Login.RefreshToken;
 import com.beetleink.redvids.Fragments.GifyFrag.Pojo.UserProfile.UserProfile;
 import com.beetleink.redvids.Fragments.PersonFrag.Authentication.LoginActivity;
 import com.beetleink.redvids.Fragments.PersonFrag.Creator.CreatorAdapter;
+import com.beetleink.redvids.Fragments.PersonFrag.Creator.CreatorViewHolder;
 import com.beetleink.redvids.Fragments.PersonFrag.Viewer.ViewerAdapter;
+import com.beetleink.redvids.HomeActivity;
 import com.beetleink.redvids.R;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,7 +58,8 @@ public class PersonFragment extends Fragment {
     ImageView profilePic;
     TextView userNameTextView, descriptionTextView,totalViewTextView,totalFollowerTextView;
     AppCompatButton followOrEditButtonView;
-    RecyclerView usersPostsList;
+    RecyclerView usersPostsListRecyclerView;
+    CreatorViewHolder.OnRecyclerViewItemListener listener;
     ArrayList<Integer> arrayListImages;
     ListView listView;
     Map<String, String> userDetails;
@@ -112,9 +110,13 @@ public class PersonFragment extends Fragment {
         descriptionTextView = view.findViewById(R.id.descriptionTextView);
         totalFollowerTextView = view.findViewById(R.id.totalFollowerTextView);
         totalViewTextView = view.findViewById(R.id.totalViewTextView);
-        usersPostsList = view.findViewById(R.id.usersPostsList);
+        usersPostsListRecyclerView = view.findViewById(R.id.usersPostsList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
-        usersPostsList.setLayoutManager(gridLayoutManager);
+        usersPostsListRecyclerView.setLayoutManager(gridLayoutManager);
+
+
+
+
 
 
         userGifsList= new ArrayList<>();
@@ -125,14 +127,19 @@ public class PersonFragment extends Fragment {
 
 
 
-//        getUserProfile();
+
+        getUserProfile();
 
 
+
+    }
+
+    public void getUserProfile(){
         FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                        getUserProfile(snapshot.child("token").getValue().toString(),snapshot.child("tokenType").getValue().toString());
+                        getUserProfile(snapshot.child("token").getValue().toString(),snapshot.child("tokenType").getValue().toString(),snapshot.child("refreshToken").toString());
 
                     }
 
@@ -141,13 +148,26 @@ public class PersonFragment extends Fragment {
 
                     }
                 });
-
     }
 
 
+    //on User Gifs List Item Click Position
+    public void userGifsListClicked(Context context, ArrayList<String> sdUrlsList, ArrayList<String> likes, ArrayList<String> username, ArrayList<List<String>> tags ){
+        listener = new CreatorViewHolder.OnRecyclerViewItemListener() {
+            @Override
+            public void getpositon(int position) {
+                Log.i("shittt", String.valueOf(position));
+                GifyView.adapterMethod(context,sdUrlsList,likes,username,tags);
+                HomeActivity.afterLoginDefaultFramentChange("home");
+//                Intent intent = new Intent(context, HomeActivity.class);
+//                startActivity(intent);
+            }
+        };
+    }
+
 
     //get own login profile after authentication
-    public void getUserProfile(String token,String tokenType){
+    public void getUserProfile(String token,String tokenType,String refreshToken){
         userDetails = new HashMap<>();
         Log.i("userProfilet", tokenType);
         Call<UserProfile> userProfile = homePageFeedApi.getUserProfile(tokenType+" "+token);
@@ -167,10 +187,25 @@ public class PersonFragment extends Fragment {
                         Glide.with(PersonFragment.this).load(response.body().getProfileImageUrl()).into(profilePic);
 
                     }
-                    getGifsListOfUserName();
+                    getGifsListOfLoginUser();
+
+
 
                 }else{
+                    //If token got expire than down going to refresh token code
                     Log.i("userProfile", String.valueOf(response.code()));
+                    Call<RefreshToken> getRefreshToken = homePageFeedApi.getRefreshToken(refreshToken);
+                    getRefreshToken.enqueue(new Callback<RefreshToken>() {
+                        @Override
+                        public void onResponse(Call<RefreshToken> call, Response<RefreshToken> response) {
+                            updateTokenAndTokenType(response.body().getAccessToken(),response.body().getTokenType(),response.body().getRefreshToken());
+                        }
+
+                        @Override
+                        public void onFailure(Call<RefreshToken> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
 
@@ -182,7 +217,25 @@ public class PersonFragment extends Fragment {
 
     }
 
-    public void getGifsListOfUserName(){
+    //update token
+    public  void updateTokenAndTokenType(String token,String tokenType,String refreshToken){
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference users = firebaseDatabase.getReference().child("users").child(firebaseAuth.getUid());
+        Log.i("refreshtokenNOTwORK", "YES");
+        users.child("token").setValue(token);
+        users.child("tokenType").setValue(tokenType);
+        users.child("refreshToken").setValue(refreshToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                getUserProfile();
+
+            }
+        });
+    }
+
+
+    //get gifs details from login username
+    public void getGifsListOfLoginUser(){
         Call<TopAccountBestGifs> topAccountBestGifsCall = homePageFeedApi.getAccountGifsAndDetails(userDetails.get("username"),"recent","g",1);
         topAccountBestGifsCall.enqueue(new Callback<TopAccountBestGifs>() {
             @Override
@@ -197,8 +250,11 @@ public class PersonFragment extends Fragment {
                         username.add(sdGifs.getUserName());
                         tags.add(sdGifs.getTags());
                         Log.i("asdfasdf", userGifsThumbnailList.get(0));
-                        CreatorAdapter adapter = new CreatorAdapter(getContext(), userGifsThumbnailList);
-                        usersPostsList.setAdapter(adapter);
+                        //click gifs list
+                        userGifsListClicked(getContext(),userGifsList,likes,username,tags);
+
+                        CreatorAdapter adapter = new CreatorAdapter(getContext(), userGifsThumbnailList,listener);
+                        usersPostsListRecyclerView.setAdapter(adapter);
 
                     }
                 }else{
@@ -295,11 +351,7 @@ public class PersonFragment extends Fragment {
 
 
 
-
-
-
-
-    }
+}
 
 
 
